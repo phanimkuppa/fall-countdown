@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFF0F1">
+<title>Fall Break</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap">
+<style>
+  /* Layout: sweet single light look. Polka-dot blush ground, cherry-red rounded title, one soft card with
+     a scalloped top, red/pink countdown tiles or a dotted red trip bar with a blushing face, ticket stub. Hearts float up. */
+  :root {
+    --blush: #FFF0F1;
+    --dot: #FFDCE1;
+    --pink: #FFD3DA;
+    --pink-2: #FFE6EA;
+    --cherry: #E0344B;
+    --cherry-dark: #B8213A;
+    --ink: #5A1A26;
+    --muted: #9A5A66;
+    --white: #FFFFFF;
+    --display: "Fredoka", "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
+    --body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { overflow-x: clip; }
+  html { background: var(--blush); }
+  body {
+    margin: 0; min-height: 100vh;
+    color: var(--ink);
+    background-color: var(--blush);
+    background-image: radial-gradient(var(--dot) 3px, transparent 3.5px), radial-gradient(var(--dot) 3px, transparent 3.5px);
+    background-size: 36px 36px; background-position: 0 0, 18px 18px;
+    font: 16px/1.5 var(--body);
+    padding-inline: max(16px, env(safe-area-inset-left, 0px));
+    padding-block: calc(16px + env(safe-area-inset-top, 0px)) calc(48px + env(safe-area-inset-bottom, 0px));
+    -webkit-font-smoothing: antialiased;
+  }
+  #hearts { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .wrap { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; display: grid; gap: 24px; }
+
+  /* hero */
+  .hero { display: grid; justify-items: center; text-align: center; gap: 12px; padding-block: 32px 4px; }
+  h1 {
+    margin: 0; font: 700 clamp(3.2rem, 15vw, 5.6rem)/.95 var(--display); letter-spacing: -.01em; text-wrap: balance;
+    color: var(--cherry);
+    text-shadow: 0 4px 0 var(--white), 0 7px 0 var(--pink);
+  }
+  h1 .heart { display: inline-block; width: .42em; height: .42em; vertical-align: .55em; margin-left: .08em; animation: beat 1.6s ease-in-out infinite; }
+  @keyframes beat { 0%, 60%, 100% { transform: scale(1); } 15% { transform: scale(1.18); } 30% { transform: scale(.96); } }
+  .status {
+    font: 700 .82rem/1 var(--body); letter-spacing: .08em; text-transform: uppercase;
+    padding: 9px 16px; border-radius: 999px; background: var(--cherry); color: var(--white);
+    box-shadow: 0 3px 0 var(--cherry-dark);
+  }
+  .status[data-phase="after"] { background: var(--muted); box-shadow: 0 3px 0 var(--ink); }
+
+  /* card */
+  .card {
+    position: relative; background: var(--white); border-radius: 30px;
+    box-shadow: 0 2px 0 var(--pink), 0 18px 40px -18px rgba(224, 52, 75, .35);
+    margin-top: 14px;
+  }
+  .card::before {
+    content: ""; position: absolute; left: 22px; right: 22px; top: -13px; height: 14px;
+    background: radial-gradient(circle at 13px 14px, var(--white) 12.5px, transparent 13px) 0 0 / 26px 14px repeat-x;
+  }
+  .main { padding: 26px 22px 24px; display: grid; gap: 20px; }
+  .lead { margin: 0; font: 600 clamp(1.4rem, 6vw, 1.9rem)/1.1 var(--display); color: var(--cherry); text-align: center; text-wrap: balance; }
+  .quip { margin: 0; color: var(--muted); font-size: 1.05rem; text-align: center; text-wrap: balance; }
+  .quip b { color: var(--ink); font-weight: 800; }
+
+  /* countdown */
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .tile { background: var(--pink-2); color: var(--cherry); border-radius: 20px; padding: 14px 2px 11px; text-align: center; box-shadow: inset 0 -4px 0 var(--pink); }
+  .tile:first-child { background: var(--cherry); color: var(--white); box-shadow: inset 0 -4px 0 var(--cherry-dark); }
+  .tile b { display: block; font: 700 clamp(2rem, 10vw, 3.6rem)/1 var(--display); font-variant-numeric: tabular-nums; }
+  .tile span { display: block; margin-top: 4px; font: 800 .7rem/1 var(--body); letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+  .tile.pop b { animation: pop .4s cubic-bezier(.3, 1.7, .5, 1); }
+  @keyframes pop { from { transform: translateY(-6px) scale(1.12); } }
+
+  /* trip bar */
+  .bar-wrap { display: grid; gap: 10px; padding-top: 22px; }
+  .bar { --days: 6; --fill: 0%; position: relative; height: 30px; border-radius: 999px; background: var(--pink-2); box-shadow: inset 0 2px 0 var(--pink); }
+  .bar .fill {
+    position: absolute; inset: 0 auto 0 0; width: var(--fill); border-radius: 999px;
+    background-color: var(--cherry);
+    background-image: radial-gradient(rgba(255, 255, 255, .55) 2.5px, transparent 3px);
+    background-size: 14px 14px; background-position: 3px 3px;
+    transition: width .6s ease;
+  }
+  .bar .ticks {
+    position: absolute; inset: 0; border-radius: 999px; pointer-events: none;
+    background: repeating-linear-gradient(to right, transparent 0 calc(100% / var(--days) - 2px), var(--white) calc(100% / var(--days) - 2px) calc(100% / var(--days)));
+    opacity: .8;
+  }
+  .bar .face {
+    position: absolute; top: 50%; left: var(--fill); width: 52px; height: 52px; margin: -26px 0 0 -26px;
+    transition: left .6s ease; animation: bob 2.6s ease-in-out infinite;
+  }
+  @keyframes bob { 50% { transform: translateY(-4px) rotate(-6deg); } }
+  .bar-ends { display: flex; justify-content: space-between; gap: 12px; font: 800 .78rem/1.3 var(--body); color: var(--muted); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .split div { display: grid; align-content: start; gap: 2px; border-radius: 20px; background: var(--pink-2); padding: 12px 14px; }
+  .big { font: 700 clamp(1.5rem, 6.5vw, 2.1rem)/1.1 var(--display); color: var(--cherry); font-variant-numeric: tabular-nums; }
+  .label { font: 800 .7rem/1.2 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+  /* ticket stub */
+  .stub {
+    position: relative; border-top: 3px dashed var(--pink);
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 16px 22px 20px;
+  }
+  .stub::before, .stub::after {
+    content: ""; position: absolute; top: -14px; width: 26px; height: 26px; border-radius: 50%; background: var(--blush);
+  }
+  .stub::before { left: -13px; } .stub::after { right: -13px; }
+  .stub .val { font: 700 .95rem/1.3 var(--body); color: var(--ink); }
+
+  @media (max-width: 440px) {
+    .main { padding: 22px 16px 20px; }
+    .stub { padding: 14px 16px 18px; }
+    .tiles { gap: 7px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    h1 .heart, .bar .face, .tile.pop b { animation: none; }
+    .bar .fill, .bar .face { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="hearts" aria-hidden="true"></canvas>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>Fall Break<svg class="heart" viewBox="0 0 24 22" aria-hidden="true"><path d="M12 21.5C5.5 16.6 1 12.6 1 7.4 1 3.9 3.7 1.3 7 1.3c2.1 0 3.9 1.1 5 2.8 1.1-1.7 2.9-2.8 5-2.8 3.3 0 6 2.6 6 6.1 0 5.2-4.5 9.2-11 14.1z" fill="#E0344B"/></svg></h1>
+    <span class="status" id="status">Countdown</span>
+  </div>
+
+  <section class="card" aria-live="polite">
+    <div class="main" id="main"></div>
+    <div class="stub">
+      <div><div class="label">Start</div><div class="val" id="stubStart"></div></div>
+      <div><div class="label">End</div><div class="val" id="stubEnd"></div></div>
+      <div><div class="label">Length</div><div class="val" id="stubLen"></div></div>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const DAY = 864e5;
+  const $ = id => document.getElementById(id);
+  const pad = n => String(n).padStart(2, '0');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // The trip: Oct 9, 2026 at 4:00 PM to Oct 14, 2026 at 6:00 AM (viewer's local time).
+  const trip = { start: new Date(2026, 9, 9, 16, 0).getTime(), end: new Date(2026, 9, 14, 6, 0).getTime() };
+
+  const midnight = ms => { const d = new Date(ms); d.setHours(0, 0, 0, 0); return d.getTime(); };
+  const calDays = (a, b) => Math.round((midnight(b) - midnight(a)) / DAY);
+  const n = calDays(trip.start, trip.end) + 1;
+  const fmtDate = ms => new Date(ms).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  const fmtShort = ms => new Date(ms).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  const fmtTime = ms => new Date(ms).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+  const plural = (k, w) => `${k} ${w}${k === 1 ? '' : 's'}`;
+  function dh(ms) {
+    const d = Math.floor(ms / DAY), h = Math.floor((ms % DAY) / 36e5);
+    return d === 0 ? plural(h, 'hr') : `${plural(d, 'day')}, ${plural(h, 'hr')}`;
+  }
+
+  const FACE = `<svg class="face" viewBox="0 0 52 52" aria-hidden="true">
+    <circle cx="26" cy="26" r="23" fill="#FFFFFF" stroke="#E0344B" stroke-width="4"/>
+    <circle cx="19" cy="23" r="2.8" fill="#5A1A26"/>
+    <circle cx="33" cy="23" r="2.8" fill="#5A1A26"/>
+    <ellipse cx="13.5" cy="30" rx="4" ry="2.6" fill="#FFB3BF"/>
+    <ellipse cx="38.5" cy="30" rx="4" ry="2.6" fill="#FFB3BF"/>
+    <path d="M21.5 30 Q26 34.5 30.5 30" fill="none" stroke="#5A1A26" stroke-width="2.8" stroke-linecap="round"/>
+  </svg>`;
+
+  const main = $('main'), status = $('status');
+  let lastPhase = null;
+  const prev = {};
+
+  function setTile(id, val) {
+    if (prev[id] === val) return;
+    prev[id] = val;
+    const el = $(id);
+    el.textContent = val;
+    if (!reduceMotion) { const t = el.parentNode; t.classList.remove('pop'); void t.offsetWidth; t.classList.add('pop'); }
+  }
+
+  function render() {
+    const now = Date.now();
+    const phase = now < trip.start ? 'before' : now < trip.end ? 'during' : 'after';
+
+    if (phase !== lastPhase) {
+      lastPhase = phase;
+      for (const k in prev) delete prev[k];
+      status.dataset.phase = phase;
+      status.textContent = phase === 'before' ? 'Almost here' : phase === 'during' ? 'On break' : 'Back to it';
+      if (phase === 'before') {
+        main.innerHTML = `
+          <p class="lead">starts in</p>
+          <div class="tiles">
+            <div class="tile"><b id="cd-d">0</b><span>days</span></div>
+            <div class="tile"><b id="cd-h">00</b><span>hrs</span></div>
+            <div class="tile"><b id="cd-m">00</b><span>min</span></div>
+            <div class="tile"><b id="cd-s">00</b><span>sec</span></div>
+          </div>`;
+      } else {
+        main.innerHTML = `
+          <p class="lead" id="lead"></p>
+          <div class="bar-wrap">
+            <div class="bar" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="--days:${n}">
+              <div class="fill"></div><div class="ticks"></div>${FACE}
+            </div>
+            <div class="bar-ends"><span>${fmtShort(trip.start)}</span><span>${plural(n, 'day')}</span><span>${fmtShort(trip.end)}</span></div>
+          </div>
+          <div class="split">
+            <div><span class="label">Done</span><span class="big" id="done"></span></div>
+            <div><span class="label">To go</span><span class="big" id="togo"></span></div>
+          </div>
+          ${phase === 'after' ? '<p class="quip" id="quip"></p>' : ''}`;
+      }
+    }
+
+    if (phase === 'before') {
+      const ms = trip.start - now;
+      setTile('cd-d', String(Math.floor(ms / DAY)));
+      setTile('cd-h', pad(Math.floor((ms % DAY) / 36e5)));
+      setTile('cd-m', pad(Math.floor((ms % 36e5) / 6e4)));
+      setTile('cd-s', pad(Math.floor((ms % 6e4) / 1e3)));
+    } else {
+      const frac = Math.min(1, Math.max(0, (now - trip.start) / (trip.end - trip.start)));
+      const bar = $('bar');
+      bar.style.setProperty('--fill', (frac * 100).toFixed(3) + '%');
+      bar.setAttribute('aria-valuenow', Math.round(frac * 100));
+      if (phase === 'during') {
+        const day = Math.min(n, calDays(trip.start, now) + 1);
+        $('lead').textContent = `Day ${day} of ${n}`;
+        $('done').textContent = (frac * 100).toFixed(1) + '%';
+        $('togo').textContent = dh(trip.end - now);
+      } else {
+        const since = calDays(trip.end, now);
+        $('lead').textContent = 'is over';
+        $('done').textContent = '100%';
+        $('togo').textContent = '0 hrs';
+        $('quip').innerHTML = since === 0
+          ? 'Welcome back. <b>The inbox missed you.</b>'
+          : `Back for ${plural(since, 'day')}. <b>Already counting down to winter break.</b>`;
+      }
+    }
+
+    $('stubStart').textContent = `${fmtDate(trip.start)}, ${fmtTime(trip.start)}`;
+    $('stubEnd').textContent = `${fmtDate(trip.end)}, ${fmtTime(trip.end)}`;
+    $('stubLen').textContent = plural(n, 'day');
+  }
+
+  function tick() { render(); setTimeout(tick, 1000 - (Date.now() % 1000) + 5); }
+  tick();
+
+  // floating hearts
+  const cv = $('hearts'), ctx = cv.getContext('2d');
+  const COLORS = ['#E0344B', '#FF8FA0', '#FFB3BF'];
+  let W = 0, H = 0;
+  const hearts = [];
+  function resize() {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = innerWidth; H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function makeHeart(bottom) {
+    return {
+      x: Math.random() * W, y: bottom ? H + 20 : Math.random() * H,
+      s: 6 + Math.random() * 9, vy: 10 + Math.random() * 16,
+      sway: 8 + Math.random() * 18, ph: Math.random() * 6.28, sp: .5 + Math.random() * .8,
+      a: .25 + Math.random() * .3, c: COLORS[(Math.random() * COLORS.length) | 0]
+    };
+  }
+  function drawHeart(h, t) {
+    const s = h.s, x = h.x + Math.sin(t * h.sp + h.ph) * h.sway, y = h.y;
+    ctx.save();
+    ctx.translate(x, y); ctx.rotate(Math.sin(t * h.sp + h.ph) * .25);
+    ctx.globalAlpha = h.a; ctx.fillStyle = h.c;
+    ctx.beginPath();
+    ctx.moveTo(0, s * .9);
+    ctx.bezierCurveTo(-s * 1.4, 0, -s * .7, -s * 1.1, 0, -s * .35);
+    ctx.bezierCurveTo(s * .7, -s * 1.1, s * 1.4, 0, 0, s * .9);
+    ctx.fill();
+    ctx.restore();
+  }
+  resize();
+  addEventListener('resize', resize);
+  const count = Math.round(Math.min(18, Math.max(9, W / 60)));
+  for (let i = 0; i < count; i++) hearts.push(makeHeart(false));
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    const t = now / 1000;
+    ctx.clearRect(0, 0, W, H);
+    for (const h of hearts) {
+      if (!reduceMotion) h.y -= h.vy * dt;
+      if (h.y < -20) Object.assign(h, makeHeart(true));
+      drawHeart(h, reduceMotion ? 0 : t);
+    }
+    if (!reduceMotion) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
