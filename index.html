@@ -3,23 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#FFF0F1">
+<meta name="theme-color" content="#FFF7EC">
 <title>Fall Break</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap">
 <style>
-  /* Layout: sweet single light look. Polka-dot blush ground, cherry-red rounded title, one soft card with
-     a scalloped top, red/pink countdown tiles or a dotted red trip bar with a blushing face, ticket stub. Hearts float up. */
+  /* Layout: sweet single light look. Polka-dot cream ground, red rounded title, one soft card with a scalloped top,
+     red/orange/yellow countdown tiles or a dotted autumn-gradient trip bar with a blushing face, ticket stub. Leaves drift down. */
   :root {
-    --blush: #FFF0F1;
-    --dot: #FFDCE1;
-    --pink: #FFD3DA;
-    --pink-2: #FFE6EA;
-    --cherry: #E0344B;
-    --cherry-dark: #B8213A;
-    --ink: #5A1A26;
-    --muted: #9A5A66;
+    --cream: #FFF7EC;
+    --dot: #FFE7C9;
+    --peach: #FFDDB8;
+    --peach-2: #FFF0DD;
+    --red: #E2412E;
+    --red-dark: #B5301F;
+    --orange: #F28A24;
+    --orange-dark: #C96A10;
+    --yellow: #F8C433;
+    --yellow-dark: #D9A010;
+    --ink: #5B2A14;
+    --muted: #9C6A4C;
     --white: #FFFFFF;
     --display: "Fredoka", "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
     --body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -28,11 +32,11 @@
 
   * { box-sizing: border-box; }
   html, body { overflow-x: clip; }
-  html { background: var(--blush); }
+  html { background: var(--cream); }
   body {
     margin: 0; min-height: 100vh;
     color: var(--ink);
-    background-color: var(--blush);
+    background-color: var(--cream);
     background-image: radial-gradient(var(--dot) 3px, transparent 3.5px), radial-gradient(var(--dot) 3px, transparent 3.5px);
     background-size: 36px 36px; background-position: 0 0, 18px 18px;
     font: 16px/1.5 var(--body);
@@ -40,29 +44,29 @@
     padding-block: calc(16px + env(safe-area-inset-top, 0px)) calc(48px + env(safe-area-inset-bottom, 0px));
     -webkit-font-smoothing: antialiased;
   }
-  #hearts { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  #leaves { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
   .wrap { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; display: grid; gap: 24px; }
 
   /* hero */
   .hero { display: grid; justify-items: center; text-align: center; gap: 12px; padding-block: 32px 4px; }
   h1 {
     margin: 0; font: 700 clamp(3.2rem, 15vw, 5.6rem)/.95 var(--display); letter-spacing: -.01em; text-wrap: balance;
-    color: var(--cherry);
-    text-shadow: 0 4px 0 var(--white), 0 7px 0 var(--pink);
+    color: var(--red);
+    text-shadow: 0 4px 0 var(--white), 0 7px 0 var(--yellow);
   }
-  h1 .heart { display: inline-block; width: .42em; height: .42em; vertical-align: .55em; margin-left: .08em; animation: beat 1.6s ease-in-out infinite; }
-  @keyframes beat { 0%, 60%, 100% { transform: scale(1); } 15% { transform: scale(1.18); } 30% { transform: scale(.96); } }
+  h1 .leaf { display: inline-block; width: .42em; height: .5em; vertical-align: .5em; margin-left: .08em; transform-origin: 50% 100%; animation: sway 3s ease-in-out infinite; }
+  @keyframes sway { 0%, 100% { transform: rotate(18deg); } 50% { transform: rotate(-8deg); } }
   .status {
     font: 700 .82rem/1 var(--body); letter-spacing: .08em; text-transform: uppercase;
-    padding: 9px 16px; border-radius: 999px; background: var(--cherry); color: var(--white);
-    box-shadow: 0 3px 0 var(--cherry-dark);
+    padding: 9px 16px; border-radius: 999px; background: var(--red); color: var(--white);
+    box-shadow: 0 3px 0 var(--red-dark);
   }
   .status[data-phase="after"] { background: var(--muted); box-shadow: 0 3px 0 var(--ink); }
 
   /* card */
   .card {
     position: relative; background: var(--white); border-radius: 30px;
-    box-shadow: 0 2px 0 var(--pink), 0 18px 40px -18px rgba(224, 52, 75, .35);
+    box-shadow: 0 2px 0 var(--peach), 0 18px 40px -18px rgba(226, 65, 46, .3);
     margin-top: 14px;
   }
   .card::before {
@@ -70,14 +74,17 @@
     background: radial-gradient(circle at 13px 14px, var(--white) 12.5px, transparent 13px) 0 0 / 26px 14px repeat-x;
   }
   .main { padding: 26px 22px 24px; display: grid; gap: 20px; }
-  .lead { margin: 0; font: 600 clamp(1.4rem, 6vw, 1.9rem)/1.1 var(--display); color: var(--cherry); text-align: center; text-wrap: balance; }
+  .lead { margin: 0; font: 600 clamp(1.4rem, 6vw, 1.9rem)/1.1 var(--display); color: var(--red); text-align: center; text-wrap: balance; }
   .quip { margin: 0; color: var(--muted); font-size: 1.05rem; text-align: center; text-wrap: balance; }
   .quip b { color: var(--ink); font-weight: 800; }
 
   /* countdown */
   .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-  .tile { background: var(--pink-2); color: var(--cherry); border-radius: 20px; padding: 14px 2px 11px; text-align: center; box-shadow: inset 0 -4px 0 var(--pink); }
-  .tile:first-child { background: var(--cherry); color: var(--white); box-shadow: inset 0 -4px 0 var(--cherry-dark); }
+  .tile { background: var(--peach-2); color: var(--red); border-radius: 20px; padding: 14px 2px 11px; text-align: center; box-shadow: inset 0 -4px 0 var(--peach); }
+  .tile:nth-child(1) { background: var(--red); color: var(--white); box-shadow: inset 0 -4px 0 var(--red-dark); }
+  .tile:nth-child(2) { background: var(--orange); color: var(--white); box-shadow: inset 0 -4px 0 var(--orange-dark); }
+  .tile:nth-child(3) { background: var(--yellow); color: var(--ink); box-shadow: inset 0 -4px 0 var(--yellow-dark); }
+  .tile:nth-child(4) { color: var(--orange); }
   .tile b { display: block; font: 700 clamp(2rem, 10vw, 3.6rem)/1 var(--display); font-variant-numeric: tabular-nums; }
   .tile span { display: block; margin-top: 4px; font: 800 .7rem/1 var(--body); letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
   .tile.pop b { animation: pop .4s cubic-bezier(.3, 1.7, .5, 1); }
@@ -85,12 +92,12 @@
 
   /* trip bar */
   .bar-wrap { display: grid; gap: 10px; padding-top: 22px; }
-  .bar { --days: 6; --fill: 0%; position: relative; height: 30px; border-radius: 999px; background: var(--pink-2); box-shadow: inset 0 2px 0 var(--pink); }
+  .bar { --days: 6; --fill: 0%; position: relative; height: 30px; border-radius: 999px; background: var(--peach-2); box-shadow: inset 0 2px 0 var(--peach); }
   .bar .fill {
     position: absolute; inset: 0 auto 0 0; width: var(--fill); border-radius: 999px;
-    background-color: var(--cherry);
-    background-image: radial-gradient(rgba(255, 255, 255, .55) 2.5px, transparent 3px);
-    background-size: 14px 14px; background-position: 3px 3px;
+    background:
+      radial-gradient(rgba(255, 255, 255, .5) 2.5px, transparent 3px) 3px 3px / 14px 14px,
+      linear-gradient(to right, var(--red), var(--orange) 60%, var(--yellow));
     transition: width .6s ease;
   }
   .bar .ticks {
@@ -105,17 +112,18 @@
   @keyframes bob { 50% { transform: translateY(-4px) rotate(-6deg); } }
   .bar-ends { display: flex; justify-content: space-between; gap: 12px; font: 800 .78rem/1.3 var(--body); color: var(--muted); }
   .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .split div { display: grid; align-content: start; gap: 2px; border-radius: 20px; background: var(--pink-2); padding: 12px 14px; }
-  .big { font: 700 clamp(1.5rem, 6.5vw, 2.1rem)/1.1 var(--display); color: var(--cherry); font-variant-numeric: tabular-nums; }
+  .split div { display: grid; align-content: start; gap: 2px; border-radius: 20px; background: var(--peach-2); padding: 12px 14px; }
+  .big { font: 700 clamp(1.5rem, 6.5vw, 2.1rem)/1.1 var(--display); color: var(--red); font-variant-numeric: tabular-nums; }
+  .split div:last-child .big { color: var(--orange); }
   .label { font: 800 .7rem/1.2 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 
   /* ticket stub */
   .stub {
-    position: relative; border-top: 3px dashed var(--pink);
+    position: relative; border-top: 3px dashed var(--peach);
     display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 16px 22px 20px;
   }
   .stub::before, .stub::after {
-    content: ""; position: absolute; top: -14px; width: 26px; height: 26px; border-radius: 50%; background: var(--blush);
+    content: ""; position: absolute; top: -14px; width: 26px; height: 26px; border-radius: 50%; background: var(--cream);
   }
   .stub::before { left: -13px; } .stub::after { right: -13px; }
   .stub .val { font: 700 .95rem/1.3 var(--body); color: var(--ink); }
@@ -126,18 +134,18 @@
     .tiles { gap: 7px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    h1 .heart, .bar .face, .tile.pop b { animation: none; }
+    h1 .leaf, .bar .face, .tile.pop b { animation: none; }
     .bar .fill, .bar .face { transition: none; }
   }
 </style>
 </head>
 <body>
 
-<canvas id="hearts" aria-hidden="true"></canvas>
+<canvas id="leaves" aria-hidden="true"></canvas>
 
 <div class="wrap">
   <div class="hero">
-    <h1>Fall Break<svg class="heart" viewBox="0 0 24 22" aria-hidden="true"><path d="M12 21.5C5.5 16.6 1 12.6 1 7.4 1 3.9 3.7 1.3 7 1.3c2.1 0 3.9 1.1 5 2.8 1.1-1.7 2.9-2.8 5-2.8 3.3 0 6 2.6 6 6.1 0 5.2-4.5 9.2-11 14.1z" fill="#E0344B"/></svg></h1>
+    <h1>Fall Break<svg class="leaf" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 1.5C19.5 6 23 13 12 25 1 13 4.5 6 12 1.5z" fill="#F28A24"/><path d="M12 6v22.5" stroke="#C96A10" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M12 12l-4-3M12 12l4-3M12 17l-4.5-3M12 17l4.5-3" stroke="#C96A10" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg></h1>
     <span class="status" id="status">Countdown</span>
   </div>
 
@@ -174,12 +182,12 @@
   }
 
   const FACE = `<svg class="face" viewBox="0 0 52 52" aria-hidden="true">
-    <circle cx="26" cy="26" r="23" fill="#FFFFFF" stroke="#E0344B" stroke-width="4"/>
-    <circle cx="19" cy="23" r="2.8" fill="#5A1A26"/>
-    <circle cx="33" cy="23" r="2.8" fill="#5A1A26"/>
-    <ellipse cx="13.5" cy="30" rx="4" ry="2.6" fill="#FFB3BF"/>
-    <ellipse cx="38.5" cy="30" rx="4" ry="2.6" fill="#FFB3BF"/>
-    <path d="M21.5 30 Q26 34.5 30.5 30" fill="none" stroke="#5A1A26" stroke-width="2.8" stroke-linecap="round"/>
+    <circle cx="26" cy="26" r="23" fill="#FFFFFF" stroke="#F28A24" stroke-width="4"/>
+    <circle cx="19" cy="23" r="2.8" fill="#5B2A14"/>
+    <circle cx="33" cy="23" r="2.8" fill="#5B2A14"/>
+    <ellipse cx="13.5" cy="30" rx="4" ry="2.6" fill="#FFB98A"/>
+    <ellipse cx="38.5" cy="30" rx="4" ry="2.6" fill="#FFB98A"/>
+    <path d="M21.5 30 Q26 34.5 30.5 30" fill="none" stroke="#5B2A14" stroke-width="2.8" stroke-linecap="round"/>
   </svg>`;
 
   const main = $('main'), status = $('status');
@@ -264,50 +272,54 @@
   function tick() { render(); setTimeout(tick, 1000 - (Date.now() % 1000) + 5); }
   tick();
 
-  // floating hearts
-  const cv = $('hearts'), ctx = cv.getContext('2d');
-  const COLORS = ['#E0344B', '#FF8FA0', '#FFB3BF'];
+  // falling leaves
+  const cv = $('leaves'), ctx = cv.getContext('2d');
+  const COLORS = [['#E2412E', '#B5301F'], ['#F28A24', '#C96A10'], ['#F8C433', '#D9A010']];
   let W = 0, H = 0;
-  const hearts = [];
+  const leaves = [];
   function resize() {
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     W = innerWidth; H = innerHeight;
     cv.width = W * dpr; cv.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
-  function makeHeart(bottom) {
+  function makeLeaf(top) {
+    const [fill, vein] = COLORS[(Math.random() * COLORS.length) | 0];
     return {
-      x: Math.random() * W, y: bottom ? H + 20 : Math.random() * H,
-      s: 6 + Math.random() * 9, vy: 10 + Math.random() * 16,
-      sway: 8 + Math.random() * 18, ph: Math.random() * 6.28, sp: .5 + Math.random() * .8,
-      a: .25 + Math.random() * .3, c: COLORS[(Math.random() * COLORS.length) | 0]
+      x: Math.random() * W, y: top ? -24 : Math.random() * H,
+      s: 7 + Math.random() * 8, vy: 14 + Math.random() * 18,
+      sway: 14 + Math.random() * 26, ph: Math.random() * 6.28, sp: .5 + Math.random() * .9,
+      rot: Math.random() * 6.28, vr: (Math.random() - .5) * 1.2,
+      a: .4 + Math.random() * .3, fill, vein
     };
   }
-  function drawHeart(h, t) {
-    const s = h.s, x = h.x + Math.sin(t * h.sp + h.ph) * h.sway, y = h.y;
+  function drawLeaf(l, t) {
+    const s = l.s, sw = Math.sin(t * l.sp + l.ph);
     ctx.save();
-    ctx.translate(x, y); ctx.rotate(Math.sin(t * h.sp + h.ph) * .25);
-    ctx.globalAlpha = h.a; ctx.fillStyle = h.c;
+    ctx.translate(l.x + sw * l.sway, l.y); ctx.rotate(l.rot + sw * .5);
+    ctx.globalAlpha = l.a; ctx.fillStyle = l.fill;
     ctx.beginPath();
-    ctx.moveTo(0, s * .9);
-    ctx.bezierCurveTo(-s * 1.4, 0, -s * .7, -s * 1.1, 0, -s * .35);
-    ctx.bezierCurveTo(s * .7, -s * 1.1, s * 1.4, 0, 0, s * .9);
+    ctx.moveTo(0, -s);
+    ctx.bezierCurveTo(s * .95, -s * .5, s * .8, s * .45, 0, s);
+    ctx.bezierCurveTo(-s * .8, s * .45, -s * .95, -s * .5, 0, -s);
     ctx.fill();
+    ctx.strokeStyle = l.vein; ctx.lineWidth = 1.3; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(0, -s * .6); ctx.lineTo(0, s * 1.35); ctx.stroke();
     ctx.restore();
   }
   resize();
   addEventListener('resize', resize);
-  const count = Math.round(Math.min(18, Math.max(9, W / 60)));
-  for (let i = 0; i < count; i++) hearts.push(makeHeart(false));
+  const count = Math.round(Math.min(20, Math.max(10, W / 55)));
+  for (let i = 0; i < count; i++) leaves.push(makeLeaf(false));
   let last = performance.now();
   function frame(now) {
     const dt = Math.min(.05, (now - last) / 1000); last = now;
     const t = now / 1000;
     ctx.clearRect(0, 0, W, H);
-    for (const h of hearts) {
-      if (!reduceMotion) h.y -= h.vy * dt;
-      if (h.y < -20) Object.assign(h, makeHeart(true));
-      drawHeart(h, reduceMotion ? 0 : t);
+    for (const l of leaves) {
+      if (!reduceMotion) { l.y += l.vy * dt; l.rot += l.vr * dt; }
+      if (l.y > H + 24) Object.assign(l, makeLeaf(true));
+      drawLeaf(l, reduceMotion ? 0 : t);
     }
     if (!reduceMotion) requestAnimationFrame(frame);
   }
